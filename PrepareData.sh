@@ -24,7 +24,7 @@
 # 1) the file containing the first set of reads (forward)
 # 2) the file containing the second set of reads (reverse)
 # 3) the file containing the tags and sample names (see above)
-# 4) the number of threads to use (current
+# 4) the number of threads to use (default = 1)
 
 
 # Forward and Reverse read files in fastq format
