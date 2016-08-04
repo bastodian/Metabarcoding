@@ -43,6 +43,12 @@ fi
 FWD_TRIM=${FWD%.*}_trim.fastq
 REV_TRIM=${REV%.*}_trim.fastq
 
+if [ -s "BIOCODETEMPLATE" ]
+then
+    echo "BIOCODEMPLATE alignmnet file is missing..."
+    exit 1
+fi
+
 # The Smithsonian Hydra cluster uses a module environment
 # Here, the script loads all necessary modules to process
 # the raw Illumina files
@@ -171,4 +177,4 @@ do
             remove.seqs(fasta=${FASTA/fasta/unique.align}, \
             accnos=${FASTA/fasta/unique.uchime.accnos})"
     fi
-done
+done && rm -v *logfile
