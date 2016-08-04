@@ -68,10 +68,8 @@ REV_SIZE=`wc -l $REV_TRIM | awk '{ print $1 }'`
 
 if [ "$FWD_SIZE" -ne "$REV_SIZE" ]
 then
-
-echo "Trimmed Fastq files are of unequal size!"
-echo "This will be fixed now and the output written to $FWD_TRIM and $REV_TRIM..."
-
+    echo "Trimmed Fastq files are of unequal size!"
+    echo "This will be fixed now and the output written to $FWD_TRIM and $REV_TRIM..."
 python << EOF
 
 import subprocess, screed, sys
@@ -95,9 +93,7 @@ with open(R1_IN,'w') as R1_OUT:
             R1_OUT.write('@%s %s\n%s\n+\n%s\n' % (thing['name'],thing['annotations'],thing['sequence'],thing['quality']))      
             R2_OUT.write('@%s %s\n%s\n+\n%s\n' % (match['name'],match['annotations'],match['sequence'],match['quality']))
 EOF
-
-rm -v *screed
-
+    rm -v *screed
 fi
 
 # STEP 3: Make contigs with the cleaned up data using Mothur; contigs are trimmed again
@@ -138,7 +134,6 @@ done && rm -v OUT_* && rm -v *logfile && rm -v *contigs*
 
 for SAMPLE in *fasta
 do
-
 python << EOF
 
 import screed, sys, subprocess
@@ -152,9 +147,7 @@ with open(OutFile, 'w') as Out:
         Out.write('>%s-%s\n%s\n' % (SampleName, record['name'], record['sequence']))
 
 EOF
-
-mv temp $SAMPLE
-
+    mv temp $SAMPLE
 done
 
 # STEP 7: Lastly, Mothur is used to create alignments of individual sample files against
