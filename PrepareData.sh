@@ -1,5 +1,12 @@
 #!/bin/bash
 
+# QUICK USAGE:
+#
+# PrepareData.sh FWD.fastq.gz REV.fastq.gz Barcodes.txt 4
+#
+# <-- runs the script using 4 threads
+#
+#
 # This is script 1 of the Illumina metabarcoding pipeline that cleans up the raw data,
 # creates contigs of the paired MiSeq reads, and splits the file into the seaparate samples
 # based on the tags used in library preparation
@@ -25,9 +32,9 @@ FWD=$1
 REV=$2
 # The file containing the tags (barcodes to split the files into samples.
 TAGS=$3
+# The number of threads (CPUs) to use; default = 1
 THREADS=$4
-
-if [ -z $THREADS ]
+if [ ! -z "$THREADS" ]
 then
     THREADS=1
 fi
@@ -36,8 +43,7 @@ fi
 FWD_TRIM=${FWD%.*}_trim.fastq
 REV_TRIM=${REV%.*}_trim.fastq
 
-
-# The Smithsonian Hydra cluster using a module environment
+# The Smithsonian Hydra cluster uses a module environment
 # Here, the script loads all necessary modules to process
 # the raw Illumina files
 
