@@ -132,7 +132,6 @@ do
     cutadapt -e 0.1 -g TANACNTCNGGNTGNCCNAANAANCA --match-read-wildcards - | \
     cutadapt -e 0.1 -a GGNGGNTANACNGTTCANCCNGTNCC --match-read-wildcards - | \
     cutadapt -e 0.1 -a TGNTTNTTNGGNCANCCNGANGTNTA --match-read-wildcards - > ${SAMPLE/OUT_/}
-
 done && rm -v OUT_* && rm -v *logfile && rm -v *contigs*
 
 # STEP 6: To facilitate downstream analyses and mapping of sequences to samples the
