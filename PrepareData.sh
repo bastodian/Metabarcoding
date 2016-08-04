@@ -34,7 +34,7 @@ REV=$2
 TAGS=$3
 # The number of threads (CPUs) to use; default = 1
 THREADS=$4
-if [ ! -z "$THREADS" ]
+if [ -z "$THREADS" ]
 then
     THREADS=1
 fi
