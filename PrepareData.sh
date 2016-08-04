@@ -43,7 +43,8 @@ fi
 FWD_TRIM=${FWD%.*}_trim.fastq
 REV_TRIM=${REV%.*}_trim.fastq
 
-if [ -s "BIOCODETEMPLATE" ]
+# If the BIOCODE alignment file is missing die...
+if [ ! -s "BIOCODETEMPLATE" ]
 then
     echo "BIOCODEMPLATE alignmnet file is missing..."
     exit 1
