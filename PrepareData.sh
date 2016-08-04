@@ -79,7 +79,7 @@ then
     echo "This will be fixed now and the output written to $FWD_TRIM and $REV_TRIM..."
 python << EOF
 
-import subprocess, screed, sys
+import subprocess, screed
 
 R1_IN = subprocess.check_output(["printf","$FWD_TRIM"])
 R2_IN = subprocess.check_output(["printf","$REV_TRIM"])
@@ -143,7 +143,7 @@ for SAMPLE in *fasta
 do
 python << EOF
 
-import screed, sys, subprocess
+import screed, subprocess
 
 FastaFile = subprocess.check_output(["printf","$SAMPLE"])
 OutFile = 'temp'
@@ -166,7 +166,6 @@ for FASTA in *fasta
 do
     if [ "unmatched.fasta" != "$FASTA" ]
     then
-        echo $FASTA
         mothur "#align.seqs(candidate=$FASTA, \
             template=BIOCODETEMPLATE, \
             flip=t, \
