@@ -155,7 +155,7 @@ with open(OutFile, 'w') as Out:
 EOF
     mv temp $SAMPLE
 done
-
+##
 # STEP 7: Lastly, Mothur is used to create alignments of individual sample files against
 # a reference database of COI sequences, sequences in the wrong orientation are reverse
 # complemented, sequences are then dereplicated, and chimeric sequences identifed using
