@@ -1,0 +1,24 @@
+#!/bin/bash
+
+export TERM=xterm
+module load bioinformatics/mothur/1.35.1
+
+FASTA=$1
+TEMPLATE=$2
+
+# Mothur is used to create alignments of individual sample files against
+# a reference database of sequences, sequences in the wrong orientation are reverse
+# complemented, sequences are then dereplicated, and chimeric sequences identifed using
+# Uchime
+
+mothur "#align.seqs(candidate=$FASTA, \
+    template=$TEMPLATE, \
+    flip=t, \
+    processors=1); \
+    summary.seqs(fasta=${FASTA/fasta/align}); \
+    unique.seqs(fasta=${FASTA/fasta/align}); \
+    chimera.uchime(fasta=${FASTA/fasta/unique.align}, \
+    name=${FASTA/fasta/names}); \
+    remove.seqs(fasta=${FASTA/fasta/unique.align}, \
+    accnos=${FASTA/fasta/unique.uchime.accnos})"
+rm -v *logfile
