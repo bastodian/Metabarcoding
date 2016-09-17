@@ -1,6 +1,8 @@
 #!/bin/bash
 
-NUM_SEQS=10
+# Ask the user how many sequence should be run per alignment
+read -p "How many sequences do you want to include per MACSE alignment? " NUM_SEQS
+
 WORKING_DIR=`pwd`
 
 # Loop over all user-supplied input directories that 
