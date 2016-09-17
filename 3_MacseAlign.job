@@ -1,0 +1,25 @@
+# /bin/sh
+# ----------------Parameters---------------------- #
+#$ -S /bin/sh
+#$ -q lThC.q
+#$ -l mres=6G,h_data=6G,h_vmem=6G
+#$ -cwd
+#$ -j y
+#$ -N JOB_NAME
+#$ -o JOB_NAME-"$TASK_ID".log
+#$ -t 1-MAX_TASKS
+#
+# ----------------Modules------------------------- #
+module load bioinformatics/macse
+#MACSE_HEAP_SIZE=3072m
+#
+# ----------------Your Commands------------------- #
+#
+echo + `date` job $JOB_NAME started in $QUEUE with jobID=$JOB_ID on $HOSTNAME
+#
+mkdir -p  $SGE_TASK_ID
+cd $SGE_TASK_ID
+ln -s ../$SGE_TASK_ID.fasta  . || exit
+runmacse -prog enrichAlignment -seq /pool/genomics/bentlageb/Laetitia/PNG/dependencies/BIOCODE_MACSE_VR.fasta -align /pool/genomics/bentlageb/Laetitia/PNG/dependencies/BIOCODE_MACSE_VR.fasta -maxFS_inSeq 0 -maxSTOP_inSeq 0 -maxINS_inSeq 0 -maxDEL_inSeq 3 -gc_def 5 -fs_lr -10 -stop_lr -10 -seq_lr $SGE_TASK_ID.fasta -out_NT "$SGE_TASK_ID"_NT -out_AA "$SGE_TASK_ID"_AA -seqToAdd_logFile "$SGE_TASK_ID"_log.csv &>$SGE_TASK_ID.out
+
+echo = `date` job $JOB_NAME done
