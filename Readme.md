@@ -206,7 +206,8 @@ work is done the submission script [3_MacseAlign.job](https://github.com/bastodi
 called, subitting an array job for each sample that needs to be aligned.
 
 In summary, the alignment task is split into several sub-tasks per sample. These sub-tasks are submitted to the queue on Hydra as
-array jobs, creating a separate array job for each seaprate sample to process the data as effeciently as possible.
+array jobs, creating a separate array job for each seaprate sample to process the data as effeciently as possible. At present,
+the inverterate mitochondrial code is hardcoded into the script (*-gc_def 5*).
 
 #### Running Step 3:
 
@@ -217,9 +218,9 @@ need to be copied into the data directory containing the sample directories - in
 ```bash
 # Executing 3_Macse_align.sh will prompt the user for a number of sequences into which each fasta file should be split.
 # After that the script creates all files and directories necessary and submits the MACSE alignment jobs to the queue 
-# automatially. The input are the Mothur alignments with the extension .unique.pick.align
+# automatially. The input are the Mothur alignments with the extension .unique.pick.align.
 
-./3_MacseAlign.sh
+MYDATA/3_MacseAlign.sh
 ```
 
 **Output:**
