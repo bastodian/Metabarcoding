@@ -24,7 +24,7 @@ barcodes and adapter sequences are stripped from the assembled contigs.
 
 __Short overview of all steps:__
 
-1) Trimmomatic removes low quality bases
+1) Trimmomatic removes low quality bases 
 2) A check is performed to ensure that forward and reverse fastq files contain the same 
     number of sequences after trimming; if not the pairing of forward and reverse reads 
     is re-estalished and orphans (only forward or reverse sequence present) are discarded 
