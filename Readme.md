@@ -22,12 +22,16 @@ curl -L0 https://github.com/bastodian/Metabarcoding/archive/master.zip > Metabar
 unzip MetabarcodingPipe.zip
 ```
 
-if *git* is available...
+All scripts and files will be placed into the directory Metabarcoding-master and can be run 
+from there or moved somewhere else.
+
+**On your local machine:**
+
+either use *curl* (see above) or *git* if available...
 
 ```bash
 git clone https://github.com/bastodian/Metabarcoding/archive/master.zip
 ```
-
 
 ## Script 1: Prep Data
 
