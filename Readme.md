@@ -65,33 +65,33 @@ barcodes and adapter sequences are stripped from the assembled contigs.
 
 #### Running the 1st part of the pipeline:
 
-The submission script 1_PrepData.sh handles the submission of the data to Hydra's queue and
-call 1_PrepData.job.
+The submission script [1_PrepData.sh](https://github.com/bastodian/Metabarcoding/blob/master/1_PrepData.sh) handles the submission of the data to Hydra's queue and
+call [1_PrepData.job](https://github.com/bastodian/Metabarcoding/blob/master/1_PrepData.job).
 
 The data needs to be organized in the following way. Fastq files are supplied as gzipped (gz)
 fastq files. Forward sequences are contained in a file that contains *_R1_* in its name while
-reverse sequences are in a file containing *_R2_* in its name. *IMPORTANT* - every matching 
+reverse sequences are in a file containing *_R2_* in its name. **IMPORTANT** - every matching 
 pair of forward and reverse sequences are together in a directory (see below).
 
 ```bash
-Index12/R1-Index12_S7_L001_R1_001.fastq.gz
-Index12/R1-Index12_S7_L001_R2_001.fastq.gz
-Index15/R1-Index15_S8_L001_R1_001.fastq.gz
-Index15/R1-Index15_S8_L001_R2_001.fastq.gz
-Index16/R1-Index16_S9_L001_R1_001.fastq.gz
-Index16/R1-Index16_S9_L001_R2_001.fastq.gz
-Index19/R1-Index19_S6_L001_R1_001.fastq.gz
-Index19/R1-Index19_S6_L001_R2_001.fastq.gz
+MYDATA/Index12/R1-Index12_S7_L001_R1_001.fastq.gz
+MYDATA/Index12/R1-Index12_S7_L001_R2_001.fastq.gz
+MYDATA/Index15/R1-Index15_S8_L001_R1_001.fastq.gz
+MYDATA/Index15/R1-Index15_S8_L001_R2_001.fastq.gz
+MYDATA/Index16/R1-Index16_S9_L001_R1_001.fastq.gz
+MYDATA/Index16/R1-Index16_S9_L001_R2_001.fastq.gz
+MYDATA/Index19/R1-Index19_S6_L001_R1_001.fastq.gz
+MYDATA/Index19/R1-Index19_S6_L001_R2_001.fastq.gz
 ```
 
 In addition to the sequence files every directory contains a flat text file with that lists barcodes
 and sample names.
 
 ```bash
-./Index12/R1I12.txt
-./Index15/R1I15.txt
-./Index16/R1I16.txt
-./Index19/R1I19.txt
+MYDATA/Index12/R1I12.txt
+MYDATA/Index15/R1I15.txt
+MYDATA/Index16/R1I16.txt
+MYDATA/Index19/R1I19.txt
 ```
 
 Example barcodes text file:
@@ -104,7 +104,7 @@ PNG_21_SES      ACAGTC
 PNG_27_100      ATCGAC
 ```
 
-**Running step1** after you have set up directories and barcode text files:
+**Running Step 1** after you have set up directories and barcode text files:
 
 Copy both 1_PrepData.sh and 1_PrepData.job to the directory containing all your directories that 
 hold the barcode text files and fastq files. Then execute the script and specify how many threads you
@@ -116,6 +116,8 @@ data processing in this way already.
 ```bash
 # Submit jobs that request 4 threads each
 
+cd MYDATA
+
 ./1_PrepData.job 4
 ```
 
@@ -123,4 +125,4 @@ data processing in this way already.
 
 To be written...
 
-
+##
