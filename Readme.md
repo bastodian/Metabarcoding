@@ -36,6 +36,10 @@ cd Metabarcoding-master
 # Make all scripts executable...
 
 chmod u+x *.job && chmod u+x *.sh
+
+# Copy scripts to desired location
+
+cp -v *.job MYDATA/ && cp -v *.sh MYDATA/
 ```
 
 **On your local machine:**
@@ -43,7 +47,7 @@ chmod u+x *.job && chmod u+x *.sh
 either use *curl* (see above) or *git* if available...
 
 ```bash
-git clone https://github.com/bastodian/Metabarcoding/archive/master.zip
+git clone https://github.com/bastodian/Metabarcoding
 ```
 
 ## Step 1: Prepare Data
