@@ -5,13 +5,13 @@ them for further analysis of barcoded metacommunities.
 
 Generally, the pipeline is modular consisting of multiple scripts that perform
 several operations without further user input. Every step is split into a shell
-script (.sh extension) that performs the data processing and a submission script
-(.job extension) that sets the data up for analysis, loads the appropriate software
+script (.job extension) that performs the data processing and a submission script
+(.sh extension) that sets the data up for analysis, loads the appropriate software
 (modules), and submits jobs to the queue on the Smithsonian Hydra Cluster.
 
-The different scripts combine related tasks and were also optimized to make use of
+The different scripts combine related tasks and were optimized to make use of
 the opportunities to run tasks in parallel on the cluster. Here, tasks were grouped 
-into a single script that can be parallelised in similar ways. This should remove
+into a single script that can be parallelized in similar ways. This should remove
 bottlenecks in data processing.
 
 **Downloading the pipeline to Hydra:**
@@ -22,8 +22,11 @@ curl -L0 https://github.com/bastodian/Metabarcoding/archive/master.zip > Metabar
 unzip MetabarcodingPipe.zip
 ```
 
-All scripts and files will be placed into the directory Metabarcoding-master and can be run 
-from there or moved somewhere else.
+All scripts and files will be placed into the directory Metabarcoding-master and should be moved/
+copied into the directory containing your data.
+
+*This shouldbe changed in the future to allow running scripts from anywhere, by pointing them 
+to the data directory.*
 
 ```bash
 # Navigate into the directory...
@@ -43,7 +46,7 @@ either use *curl* (see above) or *git* if available...
 git clone https://github.com/bastodian/Metabarcoding/archive/master.zip
 ```
 
-## Script 1: Prep Data
+## Step 1: Prepare Data
 
 Performs basic QC on the raw data, assembles the paired short reads, and splits the 
 resulting assembled reads into separate files based on their barcodes. Finally,
@@ -80,8 +83,6 @@ MYDATA/Index15/R1-Index15_S8_L001_R1_001.fastq.gz
 MYDATA/Index15/R1-Index15_S8_L001_R2_001.fastq.gz
 MYDATA/Index16/R1-Index16_S9_L001_R1_001.fastq.gz
 MYDATA/Index16/R1-Index16_S9_L001_R2_001.fastq.gz
-MYDATA/Index19/R1-Index19_S6_L001_R1_001.fastq.gz
-MYDATA/Index19/R1-Index19_S6_L001_R2_001.fastq.gz
 ```
 
 In addition to the sequence files every directory contains a flat text file with that lists barcodes
@@ -91,7 +92,6 @@ and sample names.
 MYDATA/Index12/R1I12.txt
 MYDATA/Index15/R1I15.txt
 MYDATA/Index16/R1I16.txt
-MYDATA/Index19/R1I19.txt
 ```
 
 Example barcodes text file:
@@ -125,4 +125,61 @@ cd MYDATA
 
 To be written...
 
-##
+## Step 2: Preliminary Alignments
+
+In step 2, Mothur is used to perform a preliminary alignment against a reference database following
+Mothur's SOPs. The 2 scripts for this are the submission script [2_PrelimAlign.sh](https://github.com/bastodian/Metabarcoding/blob/master/2_PrelimAlign.sh) and
+the job script [2_PrelimAlign.job](https://github.com/bastodian/Metabarcoding/blob/master/2_PrelimAlign.job) that runs the job.
+
+1. Sequences are aligned against a refefernce alignment
+2. Sequences in the wrong orientation are flipped (reverse complemented)
+3. Duplicate are sequences removed
+4. Chimeric sequences flagged and removed.
+
+Following Step 1 of the pipeline above fasta files containg the assembled sequences will have been 
+generated. Here, every directory that contained a gzipped fastq files of raw Illumina data now contains
+as many fasta files as there were barcodes used to distinguish among samples. Inthe example below,
+every directory contains 5 sample files with contigs (named accoriding to the naming scheme provided in
+barcodes text file (see Step 1 above). In addition, contigs that couldn't be confidently placed with any
+of the samples due to ambiguous or incomplete barcodes are contained in the *unmatched.fasta* file - these
+are ignored in downstream analyses.
+
+```bash
+MYDATA/Index12/PNG_19_500.fasta
+MYDATA/Index12/PNG_1_Sess.fasta
+MYDATA/Index12/PNG_21_SES.fasta
+MYDATA/Index12/PNG_27_100.fasta
+MYDATA/Index12/PNG_7_100.fasta
+MYDATA/Index12/unmatched.fasta
+MYDATA/Index15/PNG_22_SES.fasta
+MYDATA/Index15/PNG_27_500.fasta
+MYDATA/Index15/PNG_28_500.fasta
+MYDATA/Index15/PNG_2_Sess.fasta
+MYDATA/Index15/PNG_8_100.fasta
+MYDATA/Index15/unmatched.fasta
+MYDATA/Index16/PNG_19_100.fasta
+MYDATA/Index16/PNG_23_500.fasta
+MYDATA/Index16/PNG_23_SES.fasta
+MYDATA/Index16/PNG_3_Sess.fasta
+MYDATA/Index16/PNG_9_100.fasta
+MYDATA/Index16/unmatched.fasta
+```
+
+**Running Step 2:**
+
+The scripts for this step can be run from anywhere and just need to be pointed to the reference alignment and 
+the directory containing the data to be processed. A separate job will be submitted for each individual alignment, 
+effectively parallelizing the alignment generation in this fashion.
+
+```bash
+# Move to where both 2_PrelimAlign.job and 2_PrelimAlign.sh are located and execute the script as follows,
+# pointing the submission script to the reference alignment (the BIOCODETEMPLATE provides a good reference)
+
+./2_PrelimAlign.sh MYDATA TemplateAlignmentFasta
+```
+
+**Output:**
+
+To be written...
+
+## Step 3: Align Sequences using the codon model of MACSE
