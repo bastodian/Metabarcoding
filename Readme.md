@@ -24,16 +24,16 @@ barcodes and adapter sequences are stripped from the assembled contigs.
 
 **Short overview of all steps:**
 
-* Trimmomatic removes low quality bases
-* A check is performed to ensure that forward and reverse fastq files contain the same
+1. Trimmomatic removes low quality bases
+2. A check is performed to ensure that forward and reverse fastq files contain the same
     number of sequences after trimming; if not the pairing of forward and reverse reads
     is re-estalished and orphans (only forward or reverse sequence present) are discarded
-* Mothur is used to assemble forward and reverse reads; only contigs of lengths 300-450bp
+3. Mothur is used to assemble forward and reverse reads; only contigs of lengths 300-450bp
     are retained
-* FastX barcode splitter is used to sort contigs into their respective bins using the barcodes
+4. FastX barcode splitter is used to sort contigs into their respective bins using the barcodes
     supplied in a flat text file
-* Adapters and barcordes are stripped from teh sorted contigs using Cutadapt
-* To facilitate downstream analyses the sample name (taken from the barcode textfile) is
+5. Adapters and barcordes are stripped from teh sorted contigs using Cutadapt
+6. To facilitate downstream analyses the sample name (taken from the barcode textfile) is
     appended to the beginning of the fasta header in each contigs fasta file
 
 
