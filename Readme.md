@@ -183,3 +183,62 @@ effectively parallelizing the alignment generation in this fashion.
 To be written...
 
 ## Step 3: Align Sequences using the codon model of MACSE
+
+While Mothur produces decent alignments it does not check whether or not sequences possess an open reading frame
+that suggests the sequence to be coding rather than a pseudogene, sequencing artefact... Here, MACSE provides 
+a good way to prune sequenes without good open reading frames (eg, stop codons in the sequence). In addition,
+the alignment is refined using the more conserved amino acid translation into account.
+
+MACSE does have limitations in the number of sequences it can process at a time. Thus, it is necessary to split the
+alignment into multiple sub-alignments containing 5,000, 10,000, or possibly more sequences. 5,000 or 10,000 seem to 
+be a good numbers, leading to reasonable run times - the user will be prompted to provide that number once when executing
+this step of the pipeline.
+
+To speed up processing, MACSE is also run using a reference to align sequences against rather than using its *de novo* 
+alignment method.
+
+In order to run multiple sub-alignments, the Mothur alignment generated in Step 2 (see above) is split into multiple files
+and alignments are run separately on these files, generating multiple separate alignments.
+
+[3_MacseAlign.sh](https://github.com/bastodian/Metabarcoding/blob/master/3_MacseAlign.sh) automates all of the steps outlined
+above and prepares the reduced-size fasta files and directory structure to align these fasta files with MACSE. After the prep
+work is done the submission script [3_MacseAlign.job](https://github.com/bastodian/Metabarcoding/blob/master/3_MacseAlign.job) is
+called, subitting an array job for each sample that needs to be aligned.
+
+In summary, the alignment task is split into several sub-tasks per sample. These sub-tasks are submitted to the queue on Hydra as
+array jobs, creating a separate array job for each seaprate sample to process the data as effeciently as possible.
+
+#### Running Step 3:
+
+Both [3_MacseAlign.job](https://github.com/bastodian/Metabarcoding/blob/master/3_MacseAlign.job) and [3_MacseAlign.sh](https://github.com/bastodian/Metabarcoding/blob/master/3_MacseAlign.sh)
+need to be copied into the data directory containing the sample directories - in the example used troughout here that would be
+*MYDATA*.
+
+```bash
+# Executing 3_Macse_align.sh will prompt the user for a number of sequences into which each fasta file should be split.
+# After that the script creates all files and directories necessary and submits the MACSE alignment jobs to the queue 
+# automatially. The input are the Mothur alignments with the extension .unique.pick.align
+
+./3_MacseAlign.sh
+```
+
+**Output:**
+
+To be written...
+
+## TO DO
+
+Step 3 creates a number of separate MACSE alignments. These may be off-set from each other since the sequences were aligned 
+separately. Here, Mothur can be used to realign these sub-alignments to each other using one of the sub-alignments as a reference.
+This is written and has been tested but needs to be cleaned up to be included in the repository here.
+
+Following the combination of MACSE alignments, sequences need to be clustered to facilitate comparisons of OTUs across samples. Here,
+CROP provides a good but relatively slow approach. Again, this has been tested and used on some f the data but needs tobe cleaned up
+to fully automate and include it here.
+
+For quick and dirty preliminary analyses vsearch has been used on a subset of the data, producing resaonable results. This also needs
+tobe cleaned up to automate it.
+
+```bash
+vsearch --threads THREADS --cluster_fast FASTA_FILE
+```
