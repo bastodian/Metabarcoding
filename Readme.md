@@ -1,5 +1,4 @@
-Metabarcoding analysis pipeline
-===============================
+# Metabarcoding analysis pipeline
 
 This pipeline takes multiplexed and barcoded fastq sequence files and prcoesses
 them for further analysis of barcoded metacommunities.
@@ -15,16 +14,15 @@ the opportunities to run tasks in parallel on the cluster. Here, tasks were grou
 into a single script that can be parallelised in similar ways. This should remove
 bottlenecks in data processing.
 
-Script 1: Prep Data
--------------------
+## Script 1: Prep Data
 
 Performs basic QC on the raw data, assembles the paired short reads, and splits the 
 resulting assembled reads into separate files based on their barcodes. Finally,
 barcodes and adapter sequences are stripped from the assembled contigs.
 
-**Short overview of all steps:**
+#### Short overview of all steps:
 
-1. Trimmomatic removes low quality bases
+** 1. Trimmomatic removes low quality bases
 2. A check is performed to ensure that forward and reverse fastq files contain the same
     number of sequences after trimming; if not the pairing of forward and reverse reads
     is re-estalished and orphans (only forward or reverse sequence present) are discarded
@@ -34,6 +32,4 @@ barcodes and adapter sequences are stripped from the assembled contigs.
     supplied in a flat text file
 5. Adapters and barcordes are stripped from teh sorted contigs using Cutadapt
 6. To facilitate downstream analyses the sample name (taken from the barcode textfile) is
-    appended to the beginning of the fasta header in each contigs fasta file
-
-
+    appended to the beginning of the fasta header in each contigs fasta file **
