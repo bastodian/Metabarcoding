@@ -122,7 +122,7 @@ data processing in this way already.
 
 cd MYDATA
 
-./1_PrepData.job 4
+./1_PrepData.sh 4
 ```
 
 **Output:**
@@ -242,7 +242,7 @@ CROP provides a good but relatively slow approach. Again, this has been tested a
 to fully automate and include it here.
 
 For quick and dirty preliminary analyses vsearch has been used on a subset of the data, producing resaonable results. This also needs
-tobe cleaned up to automate it.
+to be cleaned up to automate it.
 
 ```bash
 vsearch --threads THREADS --cluster_fast FASTA_FILE
