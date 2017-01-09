@@ -14,15 +14,17 @@ the opportunities to run tasks in parallel on the cluster. Here, tasks were grou
 into a single script that can be parallelised in similar ways. This should remove
 bottlenecks in data processing.
 
-** Downloading the pipeline to Hydra: **
+**Downloading the pipeline to Hydra:**
 
 ```bash
 curl -L0 https://github.com/bastodian/Metabarcoding/archive/master.zip > MetabarcodingPipe.zip
 
 unzip MetabarcodingPipe.zip
+```
 
-#if *git* is available...
+if *git* is available...
 
+```bash
 git clone https://github.com/bastodian/Metabarcoding/archive/master.zip
 ```
 
